@@ -63,64 +63,89 @@
 
 
         {
+            // VARIABLES
+            // ==========================================================================              
+            //Alphabets are declared an array
             var alphabets = [];
             var first = 97;
             var last = 123;
-            var Guess = 9;
-            var wins = 0;
-            var losses = 0;
 
+
+            //Alphabets are programatically generated and string is converted to array
             for (var i = first; i < last; i++) {
                 var str = String.fromCharCode(i);
                 alphabets.push(str);
 
             }
-
-
             console.log(alphabets);
-            $(document).ready(function(){
+
+            // VARIABLES
+            // ==========================================================================   
+            //We start the game with wins and losses of 0 with guessattempts only 9 
+            var Guess = 9;
+            var wins = 0;
+            var losses = 0;
+
+            //Function to track the number of Guesses
+            function guesstracker() {
+                Guess--;
+                $("#Guess-count").text(Guess);
+            }
+
+            //Function to updatepage after the game
+            function updatepage() {
+                var Guess = 9;
+                $("#Guess-count").text(Guess);
+                var wins = 0;
+                $("#Win-Count").text(wins);
+                var losses = 0;
+                $("#Loss-count").text(losses);
+                var userGuess = "";
+                $("#Guessedletterplcholder").text(userGuess);
+            }
+
+            // MAIN PROCESS
+            // ==============================================================================
+
+            $(document).ready(function () {
+                // When the user presses a key, it will run the following function...
                 document.onkeyup = function (event) {
-                var userGuess = event.key;
-                $("#Guessedletterplcholder").append(userGuess);
-                console.log("User's guess is" + userGuess);
-                var computerGuess = alphabets[Math.floor(Math.random() * alphabets.length)];
-                console.log("Computer's guess is" + computerGuess);
-                
+                    var userGuess = event.key;
+                    $("#Guessedletterplcholder").append(userGuess);
+                    console.log("User's guess is" + userGuess);
+                    var computerGuess = alphabets[Math.floor(Math.random() * alphabets.length)];
+                    console.log("Computer's guess is" + computerGuess);
 
-               
-                    
-                    if (userGuess === computerGuess && Guess!=0) {
+
+
+                    // If user wins,track the number of wins
+                    if (userGuess === computerGuess && Guess != 0) {
                         wins++;
-                        Guess--;
-                        alert("Wins:" + wins);
+                        guesstracker();
                         $("#Win-Count").text(wins);
-                        $("#Guess-count").text(Guess);
-
-
                     }
 
-                    else if(userGuess != computerGuess && Guess!=0) {
+                    // If userlooses,track the number of losses
+                    else if (userGuess != computerGuess && Guess != 0) {
                         losses++;
-                        Guess--;
-                        alert("Losses:" + losses);
-                        //var newDiv = $("<div>");
-                        //newDiv.text(losses);
+                        guesstracker();
                         $("#Loss-count").text(losses);
-                        $("#Guess-count").text(Guess);
+
 
                     }
 
-                    else if(Guess==0)
-                    {
-                      location.reload();
+                    // If guessattempts are 9, restart the game
+                    else if (Guess == 0) {
+                        location.reload();
+                        //updatepage();
                     }
-            
-                    
-}
-           
 
-        });
-};
+
+                }
+
+
+            });
+        };
     </script>
 </body>
 
