@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <h1>Psychic Game</h1>
+
+    <div>
+        <p id="directions-text">Guess what letter I'm thinking of</p>
+    </div>
+    <div id="Score"></div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-4">
+                <p id="Wins">Wins:<p>
+            </div>
+            <div class="col-md-4">
+                <p id="Win-Count">
+                    <p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p id="Losses">Losses:<p>
+            </div>
+            <div class="col-md-4">
+                <p id="Loss-count">
+                    <p>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p id="Guessesleft">Guesses:<p>
+            </div>
+            <div class="col-md-4">
+                <p id="Guess-count">9
+                    <p>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <p id="Guessedletters">Your Guesses so far:<p>
+            </div>
+            <div class="col-md-4">
+                <p id="Guessedletterplcholder">
+                    <p>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+
+        {
+            var alphabets = [];
+            var first = 97;
+            var last = 123;
+            var Guess = 9;
+            var wins = 0;
+            var losses = 0;
+
+            for (var i = first; i < last; i++) {
+                var str = String.fromCharCode(i);
+                alphabets.push(str);
+
+            }
+
+
+            console.log(alphabets);
+            $(document).ready(function(){
+                document.onkeyup = function (event) {
+                var userGuess = event.key;
+                $("#Guessedletterplcholder").append(userGuess);
+                console.log("User's guess is" + userGuess);
+                var computerGuess = alphabets[Math.floor(Math.random() * alphabets.length)];
+                console.log("Computer's guess is" + computerGuess);
+                
+
+               
+                    
+                    if (userGuess === computerGuess && Guess!=0) {
+                        wins++;
+                        Guess--;
+                        alert("Wins:" + wins);
+                        $("#Win-Count").text(wins);
+                        $("#Guess-count").text(Guess);
+
+
+                    }
+
+                    else if(userGuess != computerGuess && Guess!=0) {
+                        losses++;
+                        Guess--;
+                        alert("Losses:" + losses);
+                        //var newDiv = $("<div>");
+                        //newDiv.text(losses);
+                        $("#Loss-count").text(losses);
+                        $("#Guess-count").text(Guess);
+
+                    }
+
+                    else if(Guess==0)
+                    {
+                      location.reload();
+                    }
+            
+                    
+}
+           
+
+        });
+};
+    </script>
+</body>
+
+</html>
