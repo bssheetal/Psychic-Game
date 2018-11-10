@@ -6,52 +6,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="css/style.css"></script>
 </head>
 
 <body>
-    <h1>Psychic Game</h1>
-
-    <div>
-        <p id="directions-text">Guess what letter I'm thinking of</p>
-    </div>
-    <div id="Score"></div>
-    <div class="container">
+    <div class="container bg-white text-black">
+            <h1>Psychic Game</h1>   
+            <div>
+                <p id="directions-text">Guess what letter I'm thinking of</p>
+            </div>
+            <div class="media">
+                    <img class="mr-3" src="https://c401345.ssl.cf1.rackcdn.com/wp-content/uploads/2012/12/no-guessing-game-smartbrief-open-forum-432.jpg" alt="Generic placeholder image">          
+                  </div>
         <div class="row">
 
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <p id="Wins">Wins:<p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 <p id="Win-Count">
                     <p>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <p id="Losses">Losses:<p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 <p id="Loss-count">
                     <p>
             </div>
 
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <p id="Guessesleft">Guesses:<p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 <p id="Guess-count">9
                     <p>
             </div>
 
         </div>
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-2">
                 <p id="Guessedletters">Your Guesses so far:<p>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-1">
                 <p id="Guessedletterplcholder">
                     <p>
             </div>
@@ -81,29 +85,29 @@
 
             // VARIABLES
             // ==========================================================================   
-            //We start the game with wins and losses of 0 with guessattempts only 9 
+            //We start the game with wins and losses of 0 with guessattempts only 9           
             var Guess = 9;
             var wins = 0;
             var losses = 0;
-
+            var GuessedLetters=[];
             //Function to track the number of Guesses
             function guesstracker() {
+                if(Guess>0)
+                {
                 Guess--;
                 $("#Guess-count").text(Guess);
+                }
+                
             }
 
-            //Function to updatepage after the game
-            function updatepage() {
-                var Guess = 9;
+            function resetgame()
+            {
+                Guess=9;
                 $("#Guess-count").text(Guess);
-                var wins = 0;
-                $("#Win-Count").text(wins);
-                var losses = 0;
-                $("#Loss-count").text(losses);
-                var userGuess = "";
-                $("#Guessedletterplcholder").text(userGuess);
+                GuessedLetters=[];
+                $("#Guessedletterplcholder").text(GuessedLetters);
             }
-
+            
             // MAIN PROCESS
             // ==============================================================================
 
@@ -111,37 +115,41 @@
                 // When the user presses a key, it will run the following function...
                 document.onkeyup = function (event) {
                     var userGuess = event.key;
-                    $("#Guessedletterplcholder").append(userGuess);
+                    GuessedLetters.push(userGuess);
+                    $("#Guessedletterplcholder").text(GuessedLetters);
                     console.log("User's guess is" + userGuess);
                     var computerGuess = alphabets[Math.floor(Math.random() * alphabets.length)];
                     console.log("Computer's guess is" + computerGuess);
-
-
-
-                    // If user wins,track the number of wins
-                    if (userGuess === computerGuess && Guess != 0) {
+                    
+                   
+                    
+                    // If user wins,track the number of wins and restart game
+                    if (userGuess===computerGuess) {
                         wins++;
-                        guesstracker();
-                        $("#Win-Count").text(wins);
+                        $("#Win-Count").text(wins);                       
+                        resetgame();
+
                     }
 
                     // If userlooses,track the number of losses
-                    else if (userGuess != computerGuess && Guess != 0) {
-                        losses++;
+                    else  {
                         guesstracker();
-                        $("#Loss-count").text(losses);
-
-
+                        
                     }
-
+                    
                     // If guessattempts are 9, restart the game
-                    else if (Guess == 0) {
-                        location.reload();
-                        //updatepage();
+                    if(Guess==0)
+                    {
+                        losses++;
+                        $("#Loss-count").text(losses);
+                        resetgame();
                     }
-
+                    
+                    
+                    
 
                 }
+                
 
 
             });
